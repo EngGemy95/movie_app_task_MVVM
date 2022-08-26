@@ -31,6 +31,7 @@ class MoviesViewModel extends BaseViewModel
   List<ItemsModel> items = [];
   List<ItemsModel> cahchedPopularItems = [];
   List<ItemsModel> cahchedTopRatedItems = [];
+  List<ItemsModel> emptyItems = [];
   List<ItemsModel>? prefrencePopularMovies;
   List<ItemsModel>? prefrenceTopRatedMovies;
 
@@ -68,19 +69,19 @@ class MoviesViewModel extends BaseViewModel
         // Internet connection error
 
         if (type == AppStrings.popularType) {
-          //cahchedPopularItems.clear();
           prefrencePopularMovies = _appPreference.getCachedMovies(type);
           cahchedPopularItems.addAll(prefrencePopularMovies ?? []);
           inputMovies.add(cahchedPopularItems);
         }
         if (type == AppStrings.topRatedType) {
-          //cahchedTopRatedItems.clear();
           prefrenceTopRatedMovies = _appPreference.getCachedMovies(type);
           cahchedTopRatedItems.addAll(prefrenceTopRatedMovies ?? []);
           inputMovies.add(cahchedTopRatedItems);
         }
       } else {
         inputIsRequestFailed.add(failure);
+        emptyItems.clear();
+        inputMovies.add(emptyItems);
       }
     }, (data) {
       if (type == AppStrings.popularType) {
